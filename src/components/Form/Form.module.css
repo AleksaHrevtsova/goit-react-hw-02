@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-flow: column;
+  background-color: black;
+  padding: 50px;
+  width: 300px;
+  text-align: left;
+  margin: 0 auto;
+}
+
+.form input {
+  margin-bottom: 20px;
+}
+.form button {
+  display: block;
+}

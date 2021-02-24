@@ -1,0 +1,14 @@
+.list {
+  display: flex;
+  list-style: none;
+  width: 300px;
+  margin: 0 auto;
+  background-color: black;
+  color: wheat;
+  padding: 50px;
+}
+.list button {
+  margin-left: 20px;
+  background-color: black;
+  color: wheat;
+}

@@ -1,29 +1,35 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import s from "./Filter.module.css";
 
 class Filter extends Component {
   state = {
     filter: "",
   };
-  //   handleSubmit = (e) => {
-  //     e.preventDefault();
-  //   };
+
   handleChange = (e) => {
+    const { filterContact } = this.props;
     this.setState({ [e.target.name]: e.target.value });
-    this.props.filterContact(e.target);
+    filterContact(e.target);
   };
 
   render() {
+    const { handleChange } = this;
+
     return (
-      //   <form onSubmit={this.handleSubmit}>
       <input
-        onInput={this.handleChange}
+        className={s.filter}
+        onInput={handleChange}
         type="text"
         name="filter"
         placeholder="Enter the name"
       />
-      //   </form>
     );
   }
 }
 
 export default Filter;
+
+Filter.propTypes = {
+  filterContact: PropTypes.func.isRequired,
+};

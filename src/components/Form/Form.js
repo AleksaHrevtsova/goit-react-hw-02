@@ -1,5 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+
 import { v4 as id } from "uuid";
+import s from "./Form.module.css";
+
 class Form extends Component {
   state = {
     name: "",
@@ -7,7 +11,9 @@ class Form extends Component {
   };
 
   handleChange = (e) => {
-    this.props.getValue(e.target);
+    const { getValue } = this.props;
+
+    getValue(e.target);
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -15,25 +21,25 @@ class Form extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+    const { addContact } = this.props;
     const { name, tel } = this.state;
-
     const el = { name, tel, id: id() };
-    console.log(el);
-    this.props.addContact(el);
+    addContact(el);
     this.setState({ name: "", tel: "" });
   };
 
   render() {
+    const { handleSubmit, handleChange } = this;
+    const { name, tel } = this.state;
     return (
-      <form action="submit" onSubmit={this.handleSubmit}>
+      <form onSubmit={handleSubmit} className={s.form}>
         <input
-          onChange={this.handleChange}
+          onChange={handleChange}
           type="text"
           name="name"
           id="name"
           placeholder="name"
-          value={this.state.name}
+          value={name}
           required
         />
         <input
@@ -42,7 +48,7 @@ class Form extends Component {
           name="tel"
           id="tel"
           placeholder="tel"
-          value={this.state.tel}
+          value={tel}
           required
         />
         <button type="submit">add</button>
@@ -52,3 +58,8 @@ class Form extends Component {
 }
 
 export default Form;
+
+Form.propTypes = {
+  getValue: PropTypes.func.isRequired,
+  addContact: PropTypes.func.isRequired,
+};

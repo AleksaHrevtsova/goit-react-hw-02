@@ -1,23 +1,28 @@
 import "./App.css";
 import React, { Component } from "react";
+
 import Form from "./components/Form/Form";
 import List from "./components/List/List";
 import Filter from "./components/Filter/Filter";
 import Title from "./components/Title/Title.js";
+
 class App extends Component {
   state = {
-    contacts: [],
+    contacts: [{ name: "Sandra", tel: "000 000 00 00", id: "1" }],
     name: "",
     tel: "",
     filter: "",
   };
   addContact = (el) => {
-    console.log(el);
-    this.setState((prev) => {
-      return {
-        contacts: [...prev.contacts, el],
-      };
-    });
+    const { contacts } = this.state;
+    const twin = contacts.some((c) => c.name === el.name);
+    twin
+      ? alert(`Alarma`)
+      : this.setState((prev) => {
+          return {
+            contacts: [...prev.contacts, el],
+          };
+        });
   };
 
   getValue = (el) => {
@@ -25,17 +30,19 @@ class App extends Component {
   };
 
   toGetFilteredContacts = () => {
-    const filteredContacts = this.state.contacts.filter((el) => {
-      return el.name.toLowerCase().includes(this.state.filter);
+    const { contacts, filter } = this.state;
+    const filteredContacts = contacts.filter((el) => {
+      return el.name.toLowerCase().includes(filter);
     });
 
     return filteredContacts;
   };
 
   getList = () => {
+    const { contacts, filter } = this.state;
     const filteredContacts = this.toGetFilteredContacts();
-    if (this.state.filter) return filteredContacts;
-    return this.state.contacts;
+    if (filter) return filteredContacts;
+    return contacts;
   };
 
   toDelete = (id) => {
@@ -46,16 +53,14 @@ class App extends Component {
   };
 
   render() {
-    console.log("filteredContacts", this.getList());
-    console.log("all contacts", this.state.contacts);
+    const { addContact, getValue, getList, toDelete } = this;
     return (
       <div className="App">
-        <Title title="Feedback" />
-        <Form addContact={this.addContact} getValue={this.getValue} />
-        <Title />
+        <Title title="PhoneBook" />
+        <Form addContact={addContact} getValue={getValue} />
         <Title title="Contacts" />
-        <Filter filterContact={this.getValue} />
-        <List contacts={this.getList()} toDelete={this.toDelete} />
+        <Filter filterContact={getValue} />
+        <List contacts={getList()} toDelete={toDelete} />
       </div>
     );
   }
